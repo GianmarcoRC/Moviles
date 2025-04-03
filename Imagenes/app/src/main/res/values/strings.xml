@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Imagenes</string>
+    <string name="texto_boton">Jeloooooooooooooooouuuuuuuuuuuuuu</string>
+    <string-array name="spinner1">
+        <item>Francia</item>
+        <item>España</item>
+        <item>Inglaterra</item>
+
+    </string-array>
+</resources>

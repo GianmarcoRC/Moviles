@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Spinner</string>
+
+    <string-array name="temas">
+        <item> </item>
+        <item>Serie</item>
+        <item>Grupo musica</item>
+        <item>Anime</item>
+    </string-array>
+    <string-array name="series">
+        <item> </item>
+        <item>Breaking bad</item>
+        <item>Juego de tronos</item>
+        <item>Dragon ball</item>
+    </string-array>
+    <string-array name="Grupos">
+        <item> </item>
+        <item>Queen</item>
+        <item>The beatles</item>
+        <item>Nirvana</item>
+    </string-array>
+    <string-array name="Anime">
+        <item> </item>
+        <item>Mushoku Tensei</item>
+        <item>One piece</item>
+        <item>Solo leveling</item>
+    </string-array>
+</resources>

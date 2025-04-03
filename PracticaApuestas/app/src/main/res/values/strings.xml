@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PracticaApuestas</string>
+    <string-array name="ParOImpar">
+        <item>Par</item>
+        <item>Impar</item>
+    </string-array>
+    <string-array name="MayorOMenor">
+        <item>Mayor que 7</item>
+        <item>Menor que 7</item>
+    </string-array>
+</resources>
