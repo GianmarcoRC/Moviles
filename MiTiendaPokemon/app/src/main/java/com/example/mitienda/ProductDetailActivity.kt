@@ -29,17 +29,14 @@ class ProductDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Detalles del Producto"
 
+        // Obtener los datos del intent
         productId = intent.getLongExtra("PRODUCT_ID", -1)
         productName = intent.getStringExtra("PRODUCT_NAME") ?: ""
         productPrice = intent.getDoubleExtra("PRODUCT_PRICE", 0.0)
         productImage = intent.getStringExtra("PRODUCT_IMAGE") ?: ""
 
-
         setupProductDetails()
-
-
         setupQuantityButtons()
-
         setupAddToCartButton()
     }
 
@@ -49,8 +46,9 @@ class ProductDetailActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(productImage)
-//            .placeholder(R.drawable.placeholder_image)
-//            .error(R.drawable.error_image)
+            // Si tienes imágenes de placeholder, descomenta estas líneas
+            // .placeholder(R.drawable.placeholder_image)
+            // .error(R.drawable.error_image)
             .into(binding.imageViewProductDetail)
     }
 

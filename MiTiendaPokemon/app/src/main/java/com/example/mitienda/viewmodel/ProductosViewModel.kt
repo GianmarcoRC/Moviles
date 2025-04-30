@@ -1,5 +1,6 @@
 package com.example.mitienda.viewmodel
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +11,7 @@ import com.example.mitienda.model.Product
 import kotlinx.coroutines.launch
 
 class ProductosViewModel : ViewModel() {
-    private val mainState = MainState()
+    private val estadoPrincipal = MainState()
 
     private val _productosFiltrados = MutableLiveData<List<Product>>()
     val productosFiltrados: LiveData<List<Product>> = _productosFiltrados
@@ -24,10 +25,10 @@ class ProductosViewModel : ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    private val _paginaActual = MutableLiveData<Int>(1)
+    private val _paginaActual = MutableLiveData(1)
     val paginaActual: LiveData<Int> = _paginaActual
 
-    private val _totalPaginas = MutableLiveData<Int>(1)
+    private val _totalPaginas = MutableLiveData(1)
     val totalPaginas: LiveData<Int> = _totalPaginas
 
     private var categoriaSeleccionada: Long? = null
@@ -41,7 +42,7 @@ class ProductosViewModel : ViewModel() {
     private fun cargarCategorias() {
         viewModelScope.launch {
             try {
-                val categorias = mainState.getCategories()
+                val categorias = estadoPrincipal.getCategories()
                 _categorias.value = categorias
             } catch (e: Exception) {
                 _error.value = "Error al cargar categorías: ${e.message}"
@@ -53,15 +54,17 @@ class ProductosViewModel : ViewModel() {
         viewModelScope.launch {
             _cargando.value = true
             try {
-                val paginaProductos = mainState.getProductsPaginated(
+                val paginaProductos = estadoPrincipal.getProductsPaginated(
                     search = terminoBusqueda,
-                    categoryId = categoriaSeleccionada,
+                    categoryId = if (categoriaSeleccionada == 0L) null else categoriaSeleccionada,
                     pageNumber = pagina,
-                    pageSize = 10
+                    pageSize = 10,
+                    sortBy = "category", // Ordenar por categoría
+                    sortDir = "asc"
                 )
 
                 _productosFiltrados.value = paginaProductos.content
-                _paginaActual.value = paginaProductos.number + 1 // Ajustamos a base-1 para la UI
+                _paginaActual.value = paginaProductos.number + 1
                 _totalPaginas.value = paginaProductos.totalPages
                 _cargando.value = false
             } catch (e: Exception) {
@@ -73,13 +76,13 @@ class ProductosViewModel : ViewModel() {
 
     fun filtrarPorCategoria(categoriaId: Long?) {
         categoriaSeleccionada = categoriaId
-        _paginaActual.value = 1 // Resetear a primera página
+        _paginaActual.value = 1
         cargarProductos(1)
     }
 
     fun buscar(termino: String?) {
         terminoBusqueda = termino
-        _paginaActual.value = 1 // Resetear a primera página
+        _paginaActual.value = 1
         cargarProductos(1)
     }
 

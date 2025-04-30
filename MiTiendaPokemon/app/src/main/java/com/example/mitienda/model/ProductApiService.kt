@@ -7,7 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ProductApiService {
-    @GET("/api/app/v1/products/find")
+    @GET("/api/app/v1/products")
     suspend fun getProducts(
         @Query("search") search: String? = null,
         @Query("cat") categoryId: Long? = null,

@@ -12,6 +12,7 @@ class ProductView(itemView: View, private val onProductClick: (Product) -> Unit)
     private val nameTextView: TextView = itemView.findViewById(R.id.textViewProductName)
     private val priceTextView: TextView = itemView.findViewById(R.id.textViewPrice)
     private val imagenView: ImageView = itemView.findViewById(R.id.imageViewProduct)
+
     private lateinit var currentProduct: Product
 
     init {
@@ -20,7 +21,7 @@ class ProductView(itemView: View, private val onProductClick: (Product) -> Unit)
         }
     }
 
-    fun bind(product: Product) {
+    fun bind(product: Product, mostrarEncabezadoCategoria: Boolean) {
         currentProduct = product
         nameTextView.text = product.name
         priceTextView.text = "Precio: ${product.price}€"

@@ -43,7 +43,7 @@ class MainState {
     suspend fun getCategories(): List<Category> {
         val response = categoryApiService.getCategories()
         if (response.isSuccessful) {
-            return response.body() ?: emptyList()
+            return response.body() ?: throw Exception("Error al cargar categorías")
         } else {
             throw Exception("Error al cargar categorías: ${response.code()}")
         }
@@ -52,9 +52,27 @@ class MainState {
     suspend fun addToCart(productId: Long, quantity: Int): CartDto {
         val response = cartApiService.addToCart(productId, quantity)
         if (response.isSuccessful) {
-            return response.body()?.firstOrNull() ?: throw Exception("Error al añadir al carrito")
+            return (response.body() ?: throw Exception("Error al añadir al carrito")) as CartDto
         } else {
             throw Exception("Error al añadir al carrito: ${response.code()}")
+        }
+    }
+
+    suspend fun obtenerCarrito(): List<CartDto> {
+        val respuesta = cartApiService.getCart()
+        if (respuesta.isSuccessful) {
+            return (respuesta.body() ?: CartDto(0, 0.0, emptyList())) as List<CartDto>
+        } else {
+            throw Exception("Error al cargar el carrito: ${respuesta.code()}")
+        }
+    }
+
+    suspend fun eliminarDelCarrito(idItem: Long): CartDto {
+        val respuesta = cartApiService.removeFromCart(idItem)
+        if (respuesta.isSuccessful) {
+            return (respuesta.body() ?: CartDto(0, 0.0, emptyList())) as CartDto
+        } else {
+            throw Exception("Error al eliminar del carrito: ${respuesta.code()}")
         }
     }
 }
