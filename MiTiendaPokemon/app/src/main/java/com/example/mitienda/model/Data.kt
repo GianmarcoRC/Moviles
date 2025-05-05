@@ -23,6 +23,7 @@ data class CartDto(
     val totalAmount: Double,
     val items: List<CartItemDto>
 )
+
 data class CartItemDto(
     val id: Long,
     val productId: Long,

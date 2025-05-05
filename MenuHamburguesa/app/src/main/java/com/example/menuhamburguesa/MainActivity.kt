@@ -5,7 +5,6 @@ import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             toggle.syncState()
 
             myNavigationview.setNavigationItemSelectedListener{
-                if(it.itemId == R.id.id_inicio){
+                if(it.itemId == R.id.id_home){
                     val myFragmentManager : FragmentManager = supportFragmentManager
                     val myFragmentTransaction : FragmentTransaction = myFragmentManager.beginTransaction()
                     val myFragment: WebFragment = WebFragment.newInstance("https://iesclaradelrey.es/portal/index.php/es/")

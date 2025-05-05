@@ -9,22 +9,23 @@ import com.example.mitienda.R
 import com.example.mitienda.model.Product
 
 class ProductView(itemView: View, private val onProductClick: (Product) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    private val nameTextView: TextView = itemView.findViewById(R.id.textViewProductName)
+    private val priceTextView: TextView = itemView.findViewById(R.id.textViewPrice)
+    private val imagenView: ImageView = itemView.findViewById(R.id.imageViewProduct)
+    private lateinit var currentProduct: Product
 
-    // Obtener referencias a las vistas del item_product.xml
-    val productNameTextView: TextView = itemView.findViewById(R.id.textViewProductName)
-    val productPriceTextView: TextView = itemView.findViewById(R.id.textViewPrice)
-    val imagenProducto: ImageView = itemView.findViewById(R.id.imageViewProduct)
+    init {
+        itemView.setOnClickListener {
+            onProductClick(currentProduct)
+        }
+    }
 
     fun bind(product: Product) {
-        productNameTextView.text = product.name
-        productPriceTextView.text = "$${product.price}"
-
+        currentProduct = product
+        nameTextView.text = product.name
+        priceTextView.text = "Precio: ${product.price}€"
         Glide.with(itemView.context)
             .load(product.image)
-            .into(imagenProducto)
-
-        itemView.setOnClickListener {
-            onProductClick(product)
-        }
+            .into(imagenView)
     }
 }
