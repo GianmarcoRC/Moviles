@@ -62,12 +62,10 @@ class ProductosFragment : Fragment() {
     }
 
     private fun configurarObservadores() {
-
         viewModel.productosFiltrados.observe(viewLifecycleOwner) { productos ->
             productAdapter.setProductos(productos)
             binding.emptyView.visibility = if (productos.isEmpty()) View.VISIBLE else View.GONE
         }
-
 
         viewModel.categorias.observe(viewLifecycleOwner) { categorias ->
             val adapter = CategoryAdapter(
@@ -97,11 +95,8 @@ class ProductosFragment : Fragment() {
             Toast.makeText(requireContext(), mensajeError, Toast.LENGTH_LONG).show()
         }
 
-
         viewModel.paginaActual.observe(viewLifecycleOwner) { pagina ->
             binding.textViewPagina.text = "Página $pagina de ${viewModel.totalPaginas.value ?: 1}"
-
-
             binding.buttonAnterior.isEnabled = pagina > 1
             binding.buttonSiguiente.isEnabled = pagina < (viewModel.totalPaginas.value ?: 1)
         }

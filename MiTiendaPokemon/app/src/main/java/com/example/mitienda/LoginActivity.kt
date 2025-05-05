@@ -3,6 +3,8 @@ package com.example.mitienda
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.mitienda.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -12,13 +14,26 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val view = binding.root
+        setContentView(view)
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
-        binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+        with(binding) {
+
+            btnlogin.setOnClickListener{
+                val myIntent: Intent = Intent(this@LoginActivity, MainActivity::class.java)
+                val userName = Email.text.toString().split("@")[0]
+                myIntent.putExtra("UserName", userName)
+
+                startActivity(myIntent)
+//                myActivityResultLauncher.launch(myIntent)
+            }
+
         }
     }
 }

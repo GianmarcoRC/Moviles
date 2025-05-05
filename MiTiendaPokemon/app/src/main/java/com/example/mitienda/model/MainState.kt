@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
 class MainState {
-    private val baseUrl = "http://10.0.2.2:8080"
+    private val baseUrl = "http://10.0.2.2:8000/api/app/v1/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -17,15 +17,15 @@ class MainState {
             .build())
         .build()
 
-    private val productApiService = retrofit.create(ProductApiService::class.java)
-    private val categoryApiService = retrofit.create(CategoryApiService::class.java)
-    private val cartApiService = retrofit.create(CartApiService::class.java)
+    private val productApiService = retrofit.create(ApiService::class.java)
+    private val categoryApiService = retrofit.create(ApiService::class.java)
+    private val cartApiService = retrofit.create(ApiService::class.java)
 
     suspend fun getProductsPaginated(
         search: String? = null,
         categoryId: Long? = null,
         pageNumber: Int = 1,
-        pageSize: Int = 10,
+        pageSize: Int = 5,
         sortBy: String = "name",
         sortDir: String = "asc"
     ): Page<Product> {

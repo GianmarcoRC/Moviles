@@ -35,7 +35,7 @@ class ProductosViewModel : ViewModel() {
 
     init {
         cargarCategorias()
-        cargarProductos()
+        cargarProductos(1)
     }
 
     private fun cargarCategorias() {
@@ -49,19 +49,22 @@ class ProductosViewModel : ViewModel() {
         }
     }
 
-    fun cargarProductos(pagina: Int = 1) {
+    fun cargarProductos(pagina: Int) {
         viewModelScope.launch {
             _cargando.value = true
             try {
+                // Ajusta el número de página para que sea cero-based para la API
+                val pageNumberForApi = if (pagina > 0) pagina - 1 else 0
+
                 val paginaProductos = mainState.getProductsPaginated(
                     search = terminoBusqueda,
                     categoryId = categoriaSeleccionada,
-                    pageNumber = pagina,
-                    pageSize = 10
+                    pageNumber = pageNumberForApi,
+                    pageSize = 5
                 )
 
                 _productosFiltrados.value = paginaProductos.content
-                _paginaActual.value = paginaProductos.number + 1 // Ajustamos a base-1 para la UI
+                _paginaActual.value = paginaProductos.number + 1
                 _totalPaginas.value = paginaProductos.totalPages
                 _cargando.value = false
             } catch (e: Exception) {
@@ -69,18 +72,6 @@ class ProductosViewModel : ViewModel() {
                 _cargando.value = false
             }
         }
-    }
-
-    fun filtrarPorCategoria(categoriaId: Long?) {
-        categoriaSeleccionada = categoriaId
-        _paginaActual.value = 1 // Resetear a primera página
-        cargarProductos(1)
-    }
-
-    fun buscar(termino: String?) {
-        terminoBusqueda = termino
-        _paginaActual.value = 1 // Resetear a primera página
-        cargarProductos(1)
     }
 
     fun siguientePagina() {
@@ -99,4 +90,17 @@ class ProductosViewModel : ViewModel() {
             cargarProductos(actual - 1)
         }
     }
+
+    fun filtrarPorCategoria(categoriaId: Long?) {
+        categoriaSeleccionada = categoriaId
+        _paginaActual.value = 1
+        cargarProductos(1)
+    }
+
+    fun buscar(termino: String?) {
+        terminoBusqueda = termino
+        _paginaActual.value = 1
+        cargarProductos(1)
+    }
 }
+
